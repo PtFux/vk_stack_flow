@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/bootstrap.css"/>
+    <title>Log in</title>
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-sm-fluid container-lg">
+          <a class="navbar-brand">AskPupkin</a>
+          <form class="d-flex" role="search">
+            <div>
+            <input
+              class="form-control me-2 rounded-pill"
+              type="search"
+              placeholder="🔍 Search"
+              aria-label="Search"
+            />
+          </div>
+            <button 
+            class="btn btn-success btn-sm rounded-0" 
+            type="submit"
+            >ASK!</button>
+          </form>
+    
+          <div class="d-flex justify-content-between gap-3">
+            <div class="d-flex flex-column justify-content-between">
+              <div>
+                <a href="login.html">log in</a>
+                <a href="signup.html">register</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+    <main class="container-fluid container-lg mt-3">
+        <div class="d-flex gap-3 align-items-center">
+            <h1>Log In</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="container-fluid">
+                    <form>
+                        <div class="invalid-feedback">
+                            Sorry, wrong password!
+                        </div>
+                        <div class="row-fluid mt-4 mb-2">
+                                <div class="form-group row">
+                                    <label for="inputTitle" class="col-sm-2 col-form-label">Login</label>
+                                    <div class="col-sm-10">
+                                    <input type="title" class="form-control border-dark rounded-0" id="inputTitle" placeholder="Enter yor login here">
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="row-fluid mt-1 mb-2">
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control border-dark rounded-0" id="inputPassword" placeholder="**********">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid mt-1 mb-2">
+                            <div class="form-group row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-10">
+                                    <button type="login" class="btn btn-light border-dark rounded-0">Log in!</button>
+                                    <div class="row-fluid mt-3">
+                                        <a href="signup.html">create new account</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-4">
+            <h3>Popular Tags</h3>
+            <div class="row">
+                <div class="col">
+                <span class="badge text-dark">perl</span>
+                <span class="badge text-danger">python</span>
+                <span class="badge text-dark">TechnoPark</span>
+                <span class="badge text-danger">MySQL</span>
+                <span class="badge text-success">django</span>
+                <span class="badge text-dark">Mail.Ru</span>
+                <span class="badge text-dark">Voloshin</span>
+                <span class="badge text-warning">Firefox</span>
+                </div>
+            </div>
+            <h3 class="mt-5">Best Members</h3>
+            <div>
+                <a href="member/id1.html" class="d-block">Mr. Freeman</a
+                ><a href="member/id2.html" class="d-block">Dr. House</a
+                ><a href="member/id3.html" class="d-block">Bender</a
+                ><a href="member/id4.html" class="d-block">Queen Victoria</a
+                ><a href="member/id5.html" class="d-block">V. Putin</a>
+            </div>
+            </div>
+        </div>
+      </div>
+    </main>
+    <footer class="fixed-bottom p-3 bg-light">
+    </footer>
+    </script>
+  </body>
+</html>
