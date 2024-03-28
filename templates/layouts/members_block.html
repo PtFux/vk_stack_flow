@@ -1,0 +1,7 @@
+{% load static %}
+<h3 class="mt-5">Best Members</h3>
+<div>
+    {% for member in members %}
+        <a href="{% url "member" member.user_id %}" class="d-block">{{ member.username }}</a>
+    {% endfor %}
+</div>
