@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/bootstrap.css"/>
+    <title>AskPupkin</title>
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-sm-fluid container-lg">
+        <a class="navbar-brand">AskPupkin</a>
+        <form class="d-flex" role="search">
+          <div>
+          <input
+            class="form-control me-2 rounded-pill"
+            type="search"
+            placeholder="🔍 Search"
+            aria-label="Search"
+          />
+        </div>
+          <button
+           class="btn btn-success btn-sm rounded-0"
+           type="submit"
+          >ASK!</button>
+        </form>
+
+        {% block auth %}
+            {% include 'layouts/auth_block.html' %}
+        {% endblock %}
+
+      </div>
+    </nav>
+
+    <main class="container-fluid container-lg mt-3">
+
+    {% block main_header %}
+    {% endblock %}
+
+      <div class="row">
+        <div class="col-8">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <div class="col-4">
+
+             {% block tags %}
+                {% include 'layouts/tags_block.html' %}
+              {% endblock %}
+
+              {% block members %}
+                {% include 'layouts/members_block.html' %}
+              {% endblock %}
+
+        </div>
+      </div>
+    </main>
+    <footer class="fixed-bottom p-3 bg-light">
+    </footer>
+  </body>
+</html>
