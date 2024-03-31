@@ -1,0 +1,26 @@
+{% load static %}
+<article class="card border-secondary mb-3 w-100">
+    <div class="row g-0">
+      <div class="col-3 p-2">
+        <div class="border w-100 mb-3" style="height: 100px">
+          <img
+            src="{% static 'img/img.jpg' %}"
+            class="img-fluid rounded-start"
+            alt="avatar"
+          />
+        </div>
+        <div class="input-group flex-nowrap">
+          <input type="number" value="{{ rating }}" class="form-control" />
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card-body">
+
+        {% block card_content %}
+        {% endblock %}
+
+        </div>
+      </div>
+    </div>
+  </article>
