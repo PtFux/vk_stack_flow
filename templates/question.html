@@ -1,0 +1,56 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <article class="card border-light mb-3 w-100">
+      <div class="row g-0">
+        <div class="col-3 p-2">
+          <div class="border w-100 mb-3" style="height: 100px">
+            <img
+              src="{% static 'img/img.jpg' %}"
+              class="img-fluid rounded-start"
+              alt="avatar"
+            />
+          </div>
+          <div class="input-group flex-nowrap">
+            <input type="number" value="5" class="form-control" />
+          </div>
+        </div>
+        <div class="col">
+          <div class="card-body">
+            <h5 class="card-title">
+              <h3>{{ question.title }}</h3>
+            </h5>
+            <p class="card-text">
+                {{ question.text }}
+            </p>
+
+            <div class="row">
+              <div class="col">
+                <span class="tags">Tags:</span>
+                {% for tag in question.tags %}
+                    <a href="{% url "tag" tag.tag_id %}">{{ tag.title }}</a>
+                {% endfor %}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </article>
+
+    {% for answer in question.answers %}
+        {% include 'layouts/answer_card.html' with rating=answer.rating %}
+    {% endfor %}
+
+    <div class="container">
+      <form>
+          <div class="form-row">
+            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Enter your answer here.." rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn btn-secondary mb-2">Answer</button>
+      </form>
+    </div>
+
+{% endblock %}
