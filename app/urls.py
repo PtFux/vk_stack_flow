@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     path('', views.get_page, kwargs={'number': 1}, name='main'),
-    path('pages/<int:number>/', views.get_page, name='page'),
+    path('pages/<str:number>/', views.get_page, name='page'),
     path('hot/<int:number>/', views.get_hot, name='hot'),
     path('tag/<str:tag_id>/', views.get_tag, name='tag'),
     path('question/<int:question_id>', views.get_question, name='question'),

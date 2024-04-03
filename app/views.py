@@ -73,7 +73,12 @@ def get_member(request, user_id: int):
     return HttpResponse(f"{user_id}")
 
 
-def get_page(request, number: int = 1):
+def get_page(request, number: str = "1"):
+    try:
+        number = int(number)
+    except ValueError:
+        number = 1
+
     pages, questions = paginate(QUESTIONS, number)
     return render(request, "index.html", {
         "user": User(),
