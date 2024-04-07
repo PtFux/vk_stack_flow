@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: ${CONTAINER_DOCKER_NAME:-postgres}
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+#      - ./init_db/:/docker-entrypoint-initdb.d
+      - ./flow-postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    restart: always
+    networks:
+      - postgres
+    env_file:
+      - .env
+
+  pgadmin:
+    container_name: flow_pgadmin_container
+    image: dpage/pgadmin4:7.8
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-default@yandex.ru}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-pg_password}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pg_admin/data/
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    networks:
+      - postgres
+
+volumes:
+  flow-postgres-data:
+  pgadmin-data:
+
+networks:
+  postgres:
+    driver: bridge

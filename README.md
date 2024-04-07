@@ -28,3 +28,5 @@
 - **функция пагинации** - _app/default_data.py_ _paginate(...)_
 - **шаблон для отрисовки пагинатора** - _templates/layouts/pagination.html_
 - **корректная обработка “неправильных” параметров** - _app/default_data.py_ _paginate(...)_
+
+### ДЗ - 3
