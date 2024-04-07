@@ -40,9 +40,13 @@
       </div>
     </article>
 
-    {% for answer in question.answers %}
+    {% for answer in answers %}
         {% include 'layouts/answer_card.html' with rating=answer.rating %}
     {% endfor %}
+    
+    {% block pagination %}
+         {% include 'layouts/pagination.html' %}
+    {% endblock %}
 
     <div class="container">
       <form>

@@ -3,16 +3,8 @@ from django.shortcuts import render
 from .default_data import *
 
 
-def index(request):
-    return render(request, 'index.html', {
-        "user": User(),
-        "tags": tags,
-        "members": members,
-        "questions": QUESTIONS
-    })
-
-
-def get_hot(request, number: int = 1):
+def get_hot(request):
+    number = request.GET.get('page')
     pages, questions = paginate(QUESTIONS, number)
     return render(request, "hot.html", {
         "user": User(),
@@ -24,12 +16,16 @@ def get_hot(request, number: int = 1):
 
 
 def get_question(request, question_id):
+    number = request.GET.get('page')
     item = QUESTIONS[question_id]
+    pages, answers = paginate(item.answers, number, per_page=2)
     return render(request, "question.html", {
         "question": item,
         "user": User(),
         "tags": tags,
         "members": members,
+        "pages": pages,
+        "answers": answers
     })
 
 
@@ -73,12 +69,8 @@ def get_member(request, user_id: int):
     return HttpResponse(f"{user_id}")
 
 
-def get_page(request, number: str = "1"):
-    try:
-        number = int(number)
-    except ValueError:
-        number = 1
-
+def get_page(request):
+    number = request.GET.get('page')
     pages, questions = paginate(QUESTIONS, number)
     return render(request, "index.html", {
         "user": User(),

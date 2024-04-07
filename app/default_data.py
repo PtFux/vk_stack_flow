@@ -49,6 +49,12 @@ class Page:
 
 
 def paginate(objects_list, page_number=1, per_page=3):
+    try:
+        page_number = int(page_number)
+    except ValueError:
+        page_number = 1
+    except TypeError:
+        page_number = 1
     page_number = max(1, page_number)
     page_obj = Paginator(objects_list, per_page)
     number = min(page_number, page_obj.num_pages)
@@ -87,6 +93,6 @@ QUESTIONS = [
         title=f"Question {i}",
         text=f"This is question number {i}",
         tags=tags[i % len(tags):(i+3) % len(tags)] if i % len(tags) < len(tags) - 3 else tags[:3],
-        answers=[Answer(text="something"), Answer(text="djfky,jgmvtjjynliuj")]
+        answers=[Answer(text=f"something{i}") for i in range(100)]
     ) for i in range(100)
 ]
