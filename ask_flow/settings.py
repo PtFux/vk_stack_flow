@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,6 +81,7 @@ WSGI_APPLICATION = 'ask_flow.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+print(os.environ.get("POSTGRES_DB"),  os.environ.get("POSTGRES_USER"), os.environ.get("POSTGRES_PASSWORD"))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',  # Используется PostgreSQL
