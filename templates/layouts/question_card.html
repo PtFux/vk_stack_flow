@@ -10,7 +10,7 @@
   <div class="row">
     <a class="col-4" href="{% url "question" question.question_id %}">answers ({{ question.n_answers }})</a>
     <div class="col-8">
-      <span>Tags</span>
+      <span>Tags: </span>
 
         {% for tag in tags %}
       <a href="{% url "tag" tag.tag_id %}">{{ tag.title }}</a>
