@@ -16,8 +16,8 @@ class QuestionManager(models.Manager):
     def get_new(self):
         return self.filter().order_by('-published_at')
 
-    def get_by_tag(self, tag):
-        return self.filter(tag=tag)
+    def get_by_tag_id(self, tag_id: int):
+        return self.filter(tags__id=tag_id)
 
 
 class QuestionModel(BaseModel):
