@@ -1,11 +1,15 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .default_data import *
+from .services.behavior import Behavior
+
+_behavior = Behavior()
 
 
 def get_hot(request):
     number = request.GET.get('page')
-    pages, questions = paginate(QUESTIONS, number)
+    questions = _behavior.get_hot_questions()
+    pages, questions = paginate(questions, number)
     return render(request, "hot.html", {
         "user": User(),
         "tags": tags,
@@ -16,7 +20,7 @@ def get_hot(request):
 
 
 def get_question(request, question_id):
-    number = request.GET.get('page')
+    number = request.GET.get('page', 0)
     item = QUESTIONS[question_id]
     pages, answers = paginate(item.answers, number, per_page=2)
     return render(request, "question.html", {
@@ -29,8 +33,19 @@ def get_question(request, question_id):
     })
 
 
-def get_tag(request, tag_id: str):
-    return HttpResponse(tag_id)
+def get_tag(request, tag_id: int):
+    number = request.GET.get('page', 0)
+    tag = _behavior.get_tag_by_id(tag_id)
+    questions = _behavior.get_questions_by_tag(tag_id)
+    pages, questions = paginate(questions, number)
+    return render(request, "tag.html", {
+        "tag": tag,
+        "user": User(),
+        "tags": tags,
+        "members": members,
+        "questions": questions,
+        "pages": pages
+    })
 
 
 def get_login(request):
@@ -70,8 +85,9 @@ def get_member(request, user_id: int):
 
 
 def get_page(request):
+    questions = _behavior.get_new_questions()
     number = request.GET.get('page')
-    pages, questions = paginate(QUESTIONS, number)
+    pages, questions = paginate(questions, number)
     return render(request, "index.html", {
         "user": User(),
         "tags": tags,
