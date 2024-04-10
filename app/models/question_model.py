@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.functions.datetime import Now
+from django.contrib.auth.models import User
 
 from app.common.question_info_query import QuestionInfoQuery
 from app.models.tag_model import TagModel
@@ -24,6 +25,7 @@ class QuestionModel(BaseModel):
     text = models.TextField()
 
     tags = models.ManyToManyField(TagModel, related_name='questions')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="questions")
     n_answers = models.IntegerField(default=0)
     rating = models.IntegerField(default=0)
 
