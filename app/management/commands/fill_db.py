@@ -1,4 +1,4 @@
-from random import choice
+from random import choice, randint
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
@@ -17,24 +17,24 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print(options['ratio'])
         ratio = options.get('ratio', 0)
-        self.__create_tags(ratio)
+        self._create_tags(ratio)
         print("Tags created")
-        self.__create_users(ratio)
+        self._create_users(ratio)
         print("Users created")
-        self.__create_questions(ratio)
+        self._create_questions(10 * ratio)
         print("Questions created")
-        self.__create_answers(ratio)
+        self._create_answers(100 * ratio)
         print("Answers created")
-        self.__create_likes_questions(100 * ratio)
+        self._create_likes_questions(100 * ratio)
         print("Likes questions created")
-        self.__create_likes_answers(100 * ratio)
+        self._create_likes_answers(100 * ratio)
         print("Likes answers created")
 
-        self.__add_tags_for_questions()
+        self._add_tags_for_questions()
         print("Tags and questions joined")
 
     @staticmethod
-    def __create_tags(n_tags: int):
+    def _create_tags(n_tags: int):
         new_tags = [
             TagModel(title=TagsData.get_title(i))
             for i in range(n_tags)
@@ -42,7 +42,7 @@ class Command(BaseCommand):
         TagModel.objects.bulk_create(new_tags)
 
     @staticmethod
-    def __create_users(n_users: int):
+    def _create_users(n_users: int):
         new_users = []
         for i in range(n_users):
             temp_user = User(
@@ -55,7 +55,7 @@ class Command(BaseCommand):
         User.objects.bulk_create(new_users)
 
     @staticmethod
-    def __create_questions(n_questions: int):
+    def _create_questions(n_questions: int):
         users = User.objects.all()
         new_questions = []
         for i in range(n_questions):
@@ -63,12 +63,13 @@ class Command(BaseCommand):
                 title=QuestionsData.get_title(i),
                 text=QuestionsData.get_text(i),
                 user=users[i % len(users)],
+                rating=randint(0, 100)
             )
             new_questions.append(temp_question)
         QuestionModel.objects.bulk_create(new_questions)
 
     @staticmethod
-    def __create_answers(n_answers: int):
+    def _create_answers(n_answers: int):
         users = User.objects.all()
         questions = QuestionModel.objects.all()
         new_answers = []
@@ -82,15 +83,11 @@ class Command(BaseCommand):
 
         AnswerModel.objects.bulk_create(new_answers)
 
-    @staticmethod
-    def __create_likes_questions(n_likes: int):
+    def _create_likes_questions(self, n_likes: int):
         users = User.objects.all()
         questions = QuestionModel.objects.all()
-        pair_user_question = set()
-        n_tries = 0
-        while len(pair_user_question) < n_likes and n_tries < 100:
-            n_tries += 1
-            pair_user_question.add((choice(users), choice(questions)))
+
+        pair_user_question = self.__get_random_unique_pairs(n_likes, questions, users)
 
         new_likes = []
         for pair in pair_user_question:
@@ -101,15 +98,11 @@ class Command(BaseCommand):
             new_likes.append(temp_like)
         QuestionLikeModel.objects.bulk_create(new_likes)
 
-    @staticmethod
-    def __create_likes_answers(n_likes: int):
+    def _create_likes_answers(self, n_likes: int):
         users = User.objects.all()
         answers = AnswerModel.objects.all()
-        pair_user_answer = set()
-        n_tries = 0
-        while len(pair_user_answer) < n_likes and n_tries < 10:
-            n_tries += 1
-            pair_user_answer.add((choice(users), choice(answers)))
+
+        pair_user_answer = self.__get_random_unique_pairs(n_likes, users, answers)
 
         new_likes = []
         for pair in pair_user_answer:
@@ -121,9 +114,19 @@ class Command(BaseCommand):
         AnswerLikeModel.objects.bulk_create(new_likes)
 
     @staticmethod
-    def __add_tags_for_questions():
+    def _add_tags_for_questions():
         questions = QuestionModel.objects.all()
         tags = TagModel.objects.all()
-        for i in range(tags.count()):
-            temp_tag = tags[i]
-            temp_tag.questions.add(*questions[(i % len(questions)):(i + 5) % len(questions)])
+        for i in range(questions.count()):
+            temp_questions = questions[i]
+            temp_questions.tags.add(*tags[(i % len(tags)):(i + 3) % len(tags)])
+
+    @staticmethod
+    def __get_random_unique_pairs(n_pairs: int, objs_1, objs_2) -> set:
+        uniq_pairs = set()
+        n_tries = 0
+        while len(uniq_pairs) < n_pairs and n_tries < 10:
+            n_tries += 1
+            uniq_pairs.add((choice(objs_1), choice(objs_2)))
+
+        return uniq_pairs
