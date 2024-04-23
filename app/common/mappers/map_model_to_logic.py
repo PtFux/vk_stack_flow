@@ -11,6 +11,7 @@ class MapModelToLogic:
             question_id=int(model.id),
             title=model.title,
             text=model.text,
+            n_answers=model.n_answers,
             rating=0
         )
         question.tags = [self.map_tag_model_to_logic(tag)

@@ -19,3 +19,5 @@ class Question:
         self.answers = answers or []
         self.rating = rating
 
+    def __repr__(self):
+        return f"Question <{self.question_id}> {self.title}: {self.text}"

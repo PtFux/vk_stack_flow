@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import QuerySet
 from django.db.models.functions.datetime import Now
 from django.contrib.auth.models import User
 
@@ -10,14 +11,20 @@ from app.models.base_models.base_model import BaseModel
 class QuestionManager(models.Manager):
     def get_hot(self,
                 rating: int = QuestionInfoQuery.REALLY_HOT_QUESTION_RATING,
-                limit: int = QuestionInfoQuery.LIMIT_HOT_QUESTION):
-        return self.filter(rating__gte=rating).order_by('-rating')[:limit]
+                start: int = 0,
+                end: int = QuestionInfoQuery.LIMIT_HOT_QUESTION) -> QuerySet:
+        return self.filter(rating__gte=rating).order_by('-rating', '-published_at').all()[start:end]
 
-    def get_new(self):
-        return self.filter().order_by('-published_at')
+    def get_new(self, start: int = 0, end: int = None) -> QuerySet:
+        end = end or self.count()
+        return self.filter().order_by('-published_at', '-rating').all()[start:end]
 
-    def get_by_tag_id(self, tag_id: int):
-        return self.filter(tags__id=tag_id)
+    def get_by_tag_id(self, tag_id: int, start: int = 0, end: int = None) -> QuerySet:
+        end = end or self.count()
+        return self.filter(tags__id=tag_id).all()[start:end]
+
+    def get_question_by_id(self, question_id: int) -> QuerySet:
+        return self.filter(id=question_id)
 
 
 class QuestionModel(BaseModel):

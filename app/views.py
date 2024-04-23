@@ -8,8 +8,8 @@ _behavior = Behavior()
 
 def get_hot(request):
     number = request.GET.get('page')
-    questions = _behavior.get_hot_questions()
-    pages, questions = paginate(questions, number)
+    pages, questions = _behavior.get_page_and_hot_questions(number)
+    print(questions)
     return render(request, "hot.html", {
         "user": User(),
         "tags": tags,
@@ -21,10 +21,10 @@ def get_hot(request):
 
 def get_question(request, question_id):
     number = request.GET.get('page', 0)
-    item = QUESTIONS[question_id]
-    pages, answers = paginate(item.answers, number, per_page=2)
+    question = _behavior.get_question_by_id(question_id)
+    pages, answers = _behavior.get_page_and_answers(question_id, number)
     return render(request, "question.html", {
-        "question": item,
+        "question": question,
         "user": User(),
         "tags": tags,
         "members": members,
@@ -34,9 +34,14 @@ def get_question(request, question_id):
 
 
 def get_tag(request, tag_id: int):
+
+    user = _behavior.get_auth_user()
+    tags, members = _behavior.get_tags_members_for_column()
+    ## долделать!!!
+
     number = request.GET.get('page', 0)
     tag = _behavior.get_tag_by_id(tag_id)
-    questions = _behavior.get_questions_by_tag(tag_id)
+    questions = _behavior._get_questions_by_tag(tag_id)
     pages, questions = paginate(questions, number)
     return render(request, "tag.html", {
         "tag": tag,
@@ -85,9 +90,8 @@ def get_member(request, user_id: int):
 
 
 def get_page(request):
-    questions = _behavior.get_new_questions()
     number = request.GET.get('page')
-    pages, questions = paginate(questions, number)
+    pages, questions = _behavior.get_page_and_new_questions(number)
     return render(request, "index.html", {
         "user": User(),
         "tags": tags,
