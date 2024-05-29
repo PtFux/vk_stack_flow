@@ -180,6 +180,9 @@ def ask(request):
     if request.method == "POST":
         form = QuestionForm(tags_for_ask, request.POST)
         if form.is_valid():
+            valid_tag = _behavior.check_match_new_tag(form.cleaned_data.get("new_tags"))
+            if not valid_tag:
+                form.add_error(field=None, error="This tag's already existed !")
             question = _behavior.create_question(user, **form.cleaned_data)
             return redirect(reverse("question", kwargs={"question_id": question.id}))
     else:
