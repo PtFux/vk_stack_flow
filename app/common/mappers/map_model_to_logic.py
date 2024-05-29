@@ -1,5 +1,5 @@
-from app.default_data import Answer
 from app.models import QuestionModel, TagModel, AnswerModel
+from app.services.models import Answer
 from app.services.models.question import Question
 from app.services.models.tag import Tag
 
