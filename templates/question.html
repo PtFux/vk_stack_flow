@@ -1,5 +1,6 @@
 {% extends "layouts/base.html" %}
 {% load static %}
+{% load django_bootstrap5 %}
 
 {% block content %}
 
@@ -49,10 +50,9 @@
     {% endblock %}
 
     <div class="container">
-      <form>
-          <div class="form-row mb-1">
-            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Enter your answer here.." rows="4"></textarea>
-          </div>
+      <form method="post" action="{% url "question" question.question_id %}">
+          {% csrf_token %}
+          {% bootstrap_form form %}
           <button type="submit" class="btn btn-secondary mb-2">Answer</button>
       </form>
     </div>

@@ -20,7 +20,7 @@ class QuestionManager(models.Manager):
         return self.filter().order_by('-published_at', '-rating').all()[start:end]
 
     def get_by_tag_id(self, tag_id: int, start: int = 0, end: int = None) -> QuerySet:
-        end = end or self.count()
+        end = end or self.filter(tags__id=tag_id).count()
         return self.filter(tags__id=tag_id).all()[start:end]
 
     def get_question_by_id(self, question_id: int) -> QuerySet:

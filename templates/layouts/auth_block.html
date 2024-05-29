@@ -10,10 +10,10 @@
             />
           </div>
           <div class="d-flex flex-column justify-content-between">
-            <div>{{ user.name }}</div>
+            <div>{{ user.username }}</div>
             <div>
-              <a href="{% url "settings" %}">settings</a>
-              <a href="{% url "signup" %}">log out</a>
+              <a href="{% url "settings" %}">settings </a>
+              <a href="{% url "logout" request.path %}">log out</a>
             </div>
           </div>
         </div>
