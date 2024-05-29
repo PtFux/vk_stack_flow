@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="container-fluid">
-        <form method="post" action="/login/">
+        <form method="post" action="/login/?next={{ next }}">
             {% csrf_token %}
 <!--            <div class="invalid-feedback">-->
 <!--                Sorry, wrong password!-->

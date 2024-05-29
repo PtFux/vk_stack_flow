@@ -48,6 +48,7 @@ def get_question(request, question_id):
                 answer = _behavior.create_answer_by_question_id(user, question_id, **form.cleaned_data)
                 response = redirect(reverse("question", kwargs={'question_id': question_id}))
                 response['Location'] += f'?answer_id={answer.id}'
+                response['Location'] += f'#{answer.id}'
 
                 _behavior.logging_info(f"Views debug: redirect to {response.url}", **module_logging_info)
                 return response
@@ -111,8 +112,7 @@ def login(request):
             user = auth.authenticate(request, **form.cleaned_data)
             if user is not None:
                 auth.login(request, user)
-                continue_url = request.GET.get('continue', reverse('main'))
-
+                continue_url = request.GET.get('next', reverse('main'))
                 _behavior.logging_info(f"Login successful redirect  to {continue_url}", **module_logging_info)
                 return redirect(continue_url)
             else:
@@ -120,18 +120,22 @@ def login(request):
         _behavior.logging_info(f"Login failed {form.errors}", **module_logging_info)
     else:
         form = LoginForm()
+        next = request.GET.get('next', reverse("main"))
         return render(request, "login.html", context={
               "tags": tags,
               "user": user,
               "members": members,
-              "form": form
+              "form": form,
+              "next": next
           })
 
+    next = request.GET.get('next', reverse('main'))
     return render(request, "login.html", context={
         "user": user,
         "tags": tags,
         "members": members,
-        "form": form
+        "form": form,
+        "next": next
     })
 
 

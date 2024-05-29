@@ -184,11 +184,25 @@ class Behavior:
         user.save()
         self.logging_info(f"Updated user model '{user.username}' and profile model '{profile}'", **module_logging_info)
 
-    def create_question(self, user: UserModel, title: str, text: str, tags: list[int]) -> QuestionModel:
-        tag_models = [self.get_tag_model_by_id(tag_id) for tag_id in tags]
+    def create_question(self,
+                        user: UserModel, title: str, text: str, tags: list[int] = None, new_tags: list[int] = None,
+                        **kwargs) -> QuestionModel:
+        add_tags = []
+        if new_tags:
+            new_tags_models = []
+            for tag in new_tags:
+                tag_model = TagModel(title=tag)
+                tag_model.save()
+                new_tags_models.append(tag_model)
+            add_tags.extend(new_tags_models)
+            self.logging_info(f"Created tag models {new_tags_models}", **module_logging_info)
+        if tags:
+            tag_models = [self.get_tag_model_by_id(tag_id) for tag_id in tags]
+            add_tags.extend(tag_models)
+
         question = QuestionModel(user=user, title=title, text=text)
         question.save()
-        question.tags.add(*tag_models)
+        question.tags.add(*add_tags)
         question.save()
         self.logging_info(f"Created question model {question.id}", **module_logging_info)
         return question
