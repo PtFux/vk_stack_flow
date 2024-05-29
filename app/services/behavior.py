@@ -245,3 +245,12 @@ class Behavior:
         from ..default_data import tags, members
 
         return tags, members
+
+    @staticmethod
+    def check_match_new_tag(new_tags: list[int] = None) -> bool:
+        if new_tags:
+            tags_models = list(TagModel.objects.all())
+            for tag in new_tags:
+                if tag in tags_models:
+                    return False
+        return True
