@@ -14,7 +14,7 @@ Move to **servers-register-server**
 - Password: `flow_password`
 
 ## Docker-compose
-### How to add EnvFile?
+### How to add EnvFile? (in PyCharm)
 - Configuration
 - Edit
 - Docker
