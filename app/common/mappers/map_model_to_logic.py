@@ -39,6 +39,7 @@ class MapModelToLogic:
     @staticmethod
     def map_answer_model_to_logic(model: AnswerModel) -> Answer:
         answer = Answer(
+            id=model.id,
             text=model.text,
             rating=model.rating
         )
