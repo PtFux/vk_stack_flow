@@ -87,7 +87,7 @@ class Command(BaseCommand):
         users = User.objects.all()
         questions = QuestionModel.objects.all()
 
-        pair_user_question = self.__get_random_unique_pairs(n_likes, questions, users)
+        pair_user_question = self.__get_random_unique_pairs(n_likes, users, questions)
 
         new_likes = []
         for pair in pair_user_question:
