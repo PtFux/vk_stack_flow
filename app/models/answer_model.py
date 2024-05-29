@@ -22,6 +22,6 @@ class AnswerModel(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="answers")
     rating = models.IntegerField(default=0)
 
-    published_at = models.DateTimeField(db_default=Now())
+    published_at = models.DateTimeField(default=Now())
 
     objects = AnswerManager()

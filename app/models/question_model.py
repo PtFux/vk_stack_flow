@@ -36,7 +36,7 @@ class QuestionModel(BaseModel):
     n_answers = models.IntegerField(default=0)
     rating = models.IntegerField(default=0)
 
-    published_at = models.DateTimeField(db_default=Now())
+    published_at = models.DateTimeField(default=Now())
 
     objects = QuestionManager()
 
